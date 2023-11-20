@@ -1,0 +1,12 @@
+﻿
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@500&family=Roboto&display=swap');
+
+body {
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+}
