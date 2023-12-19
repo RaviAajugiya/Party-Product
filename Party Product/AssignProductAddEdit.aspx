@@ -3,7 +3,8 @@
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <div class="container  text-center">
         <h3 class="text-center mb-3 mt-2">Assign Product</h3>
-        <asp:Label Style="display: inline-block; margin-bottom: 10px" ID="Status" Text="" runat="server" Visible="false"></asp:Label>
+        <asp:Label ID="lblMessage" runat="server" Text="" ForeColor="Green"></asp:Label>
+
         <p class="text-center">
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PartyProductConnectionString %>" SelectCommand="SELECT [Party_Name] FROM [Party]"></asp:SqlDataSource>
         </p>
@@ -34,7 +35,7 @@
     </div>
 
     <asp:SqlDataSource ID="SqlAssignProduct" runat="server" ConnectionString="<%$ ConnectionStrings:PartyProductConnectionString %>"
-        InsertCommand="INSERT INTO Assign_Party VALUES ((Select Party_id from party where Party_Name = @PartyName),(Select Product_id from Product where Product_Name = @ProductName))">
+        InsertCommand="INSERT INTO Assign_Party VALUES ((Select Party_id from party where Party_Name = @PartyName),(Select Product_id from Product where Product_Name = @ProductName))" OnInserted="SqlAddParty_Inserted">
         <InsertParameters>
             <asp:Parameter Name="PartyName" Type="String" />
             <asp:Parameter Name="ProductName" Type="String" />

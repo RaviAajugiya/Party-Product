@@ -4,7 +4,8 @@
     <div class="container text-center">
 
         <h3 class="text-center mb-3 mt-2">Product Rate Add</h3>
-        <asp:Label Style="display: inline-block; margin-bottom: 10px" ID="Status" Text="" runat="server" Visible="false"></asp:Label>
+        <asp:Label ID="lblMessage" runat="server" Text="" ForeColor="Green"></asp:Label>
+
         <table cellpadding="3" align="center">
             <tr>
                 <td>Product Name :</td>
@@ -38,7 +39,7 @@
         </p>
     </div>
     <asp:SqlDataSource ID="SqlAddRate" runat="server" ConnectionString="<%$ ConnectionStrings:PartyProductConnectionString %>"
-        InsertCommand="INSERT INTO Product_Rate VALUES ((SELECT Product_id FROM Product WHERE Product_Name = @ProductName), @ProductRate, Cast(@RateDate AS Date))">
+        InsertCommand="INSERT INTO Product_Rate VALUES ((SELECT Product_id FROM Product WHERE Product_Name = @ProductName), @ProductRate, Cast(@RateDate AS Date))" OnInserted="SqlAddParty_Inserted">
         <InsertParameters>
             <asp:Parameter Name="ProductName" Type="String" />
             <asp:Parameter Name="ProductRate" Type="String" />

@@ -1,9 +1,10 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/MasterNavigation.Master" AutoEventWireup="true" CodeBehind="Party.aspx.cs" Inherits="Party_Product.WebForm1" %>
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
+    <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="true" />
     <div class="container">
         <p class="text-center">
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="Party_id" DataSourceID="SqlDataSource1" CssClass="table table-striped table-bordered" Width="80%" HorizontalAlign="Center">
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="Party_id" DataSourceID="SqlDataSource1" CssClass="table table-striped table-bordered" Width="80%" HorizontalAlign="Center" AllowSorting="True">
                 <Columns>
                     <asp:BoundField DataField="Party_id" HeaderText="Party ID" InsertVisible="False" ReadOnly="True" SortExpression="Party_id">
                         <ItemStyle Width="33.33%" />
@@ -11,7 +12,17 @@
                     <asp:BoundField DataField="Party_Name" HeaderText="Party Name" SortExpression="Party_Name">
                         <ItemStyle Width="33.33%" />
                     </asp:BoundField>
-                    <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" ButtonType="Button" HeaderText="Action" />
+                    <asp:TemplateField HeaderText="Action">
+                        <EditItemTemplate>
+                            <asp:LinkButton runat="server" CausesValidation="True" CommandName="Update" Text="Update" CssClass="btn btn-info"></asp:LinkButton>
+                            &nbsp;<asp:LinkButton runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" CssClass="w-auto btn btn-danger"></asp:LinkButton>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:LinkButton runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="btn btn-success"></asp:LinkButton>
+                            <asp:LinkButton runat="server" Text="Delete" CommandName="Delete" CausesValidation="False" OnClientClick="return confirm('Are you sure you want to delete?');" CssClass="btn btn-danger"></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
                 </Columns>
             </asp:GridView>
         </p>
@@ -33,4 +44,7 @@
             </asp:SqlDataSource>
         </p>
     </div>
+
 </asp:Content>
+
+

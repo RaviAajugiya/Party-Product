@@ -18,23 +18,31 @@ namespace Party_Product
         {
             try
             {
-                Status.Visible = true;
+                lblMessage.Visible = true;
                 String PartyName = DropDownList1.SelectedValue;
                 String ProductName = DropDownList2.SelectedValue;
                 SqlAssignProduct.InsertParameters["PartyName"].DefaultValue = PartyName;
                 SqlAssignProduct.InsertParameters["ProductName"].DefaultValue = ProductName;
                 SqlAssignProduct.Insert();
-                Status.Text = "Product assigned succesfully";
+                lblMessage.Text = "Product assigned succesfully";
 
             }
             catch (Exception ex)
             {
-                Status.Text = ex.Message;
+                //Status.Text = ex.Message;
             }
+        }
 
-
-
-
+        protected void SqlAddParty_Inserted(object sender, SqlDataSourceStatusEventArgs e)
+        {
+            if (e.AffectedRows > 0)
+            {
+                lblMessage.Text = "Data inserted successfully!";
+            }
+            else
+            {
+                lblMessage.Text = "Party alreadt exists";
+            }
         }
     }
 }

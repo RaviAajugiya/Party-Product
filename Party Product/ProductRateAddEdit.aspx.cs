@@ -16,11 +16,15 @@ namespace Party_Product
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-
+            if (string.IsNullOrWhiteSpace(TextBox2.Text) || string.IsNullOrWhiteSpace(TextBox3.Text))
+            {
+                lblMessage.Text = "Please enter a Data";
+                return;
+            }
 
             try
             {
-                Status.Visible = true;
+                lblMessage.Visible = true;
                 String Product_Name = DropDownList1.SelectedValue;
                 String Product_Rate = TextBox2.Text;
                 String Rate_Date = TextBox3.Text;
@@ -29,14 +33,26 @@ namespace Party_Product
                 SqlAddRate.InsertParameters["ProductRate"].DefaultValue = TextBox2.Text;
                 SqlAddRate.InsertParameters["RateDate"].DefaultValue = TextBox3.Text;
                 SqlAddRate.Insert();
-                Status.Text = "Rate Inserted Succesfully";
+                lblMessage.Text = "Rate Inserted Succesfully";
 
             }
             catch (Exception ex)
             {
-                Status.Text = ex.Message;
+                lblMessage.Text = ex.Message;
             }
 
+
+        }
+        protected void SqlAddParty_Inserted(object sender, SqlDataSourceStatusEventArgs e)
+        {
+            if (e.AffectedRows > 0)
+            {
+                lblMessage.Text = "Data inserted successfully!";
+            }
+            else
+            {
+                lblMessage.Text = "already exists";
+            }
         }
     }
 }

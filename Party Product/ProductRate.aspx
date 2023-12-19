@@ -5,7 +5,7 @@
 
 
         <p style="text-align: center">
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="Rate_id" DataSourceID="SqlDataSource1" CssClass="table table-striped table-bordered" Width="90%" HorizontalAlign="Center">
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataKeyNames="Rate_id" DataSourceID="SqlDataSource1" CssClass="table table-striped table-bordered" Width="90%" HorizontalAlign="Center" AllowSorting="True">
                 <Columns>
                     <asp:BoundField DataField="Rate_id" HeaderText="Rate_id" InsertVisible="False" ReadOnly="True" SortExpression="Rate_id">
                         <ItemStyle Width="10%" />
@@ -28,7 +28,17 @@
                     <asp:BoundField DataField="Rate_Date" HeaderText="Rate_Date" SortExpression="Rate_Date">
                         <ItemStyle Width="30%" />
                     </asp:BoundField>
-                    <asp:CommandField ButtonType="Button" HeaderText="Action" ShowDeleteButton="True" ShowEditButton="True" ShowHeader="True" />
+                    <asp:TemplateField HeaderText="Action">
+                        <EditItemTemplate>
+                            <asp:LinkButton runat="server" CausesValidation="True" CommandName="Update" Text="Update" CssClass="btn btn-info"></asp:LinkButton>
+                            &nbsp;<asp:LinkButton runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" CssClass="w-auto btn btn-danger"></asp:LinkButton>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:LinkButton runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="btn btn-success"></asp:LinkButton>
+                            <asp:LinkButton runat="server" Text="Delete" CommandName="Delete" CausesValidation="False" OnClientClick="return confirm('Are you sure you want to delete?');" CssClass="btn btn-danger"></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+
                 </Columns>
             </asp:GridView>
             <asp:SqlDataSource ID="SqlDataSource1" runat="server" ConnectionString="<%$ ConnectionStrings:PartyProductConnectionString %>" DeleteCommand="DELETE FROM Product_Rate WHERE (Rate_id = @Rate_id)" SelectCommand="SELECT Product_Rate.Rate_id, Product.Product_Name, Product_Rate.Rate, Product_Rate.Rate_Date FROM Product_Rate INNER JOIN Product ON Product_Rate.Product_id = Product.Product_id" UpdateCommand="UPDATE Product_Rate SET Rate = @Rate, Product_id = (Select Product_id from Product where Product_Name = @Product_Name), Rate_Date = @Rate_Date WHERE (Product_Rate.Rate_id = @Rate_id)">

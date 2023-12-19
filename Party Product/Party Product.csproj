@@ -81,7 +81,6 @@
     <Content Include="History.aspx" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DB script\Class1.cs" />
     <Compile Include="ProductAddEdit.aspx.cs">
       <DependentUpon>ProductAddEdit.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

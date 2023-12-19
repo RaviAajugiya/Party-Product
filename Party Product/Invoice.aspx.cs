@@ -24,28 +24,33 @@ namespace Party_Product
 
         protected void Button1_Click(object sender, EventArgs e)
         {
-            Party_Name = DropDownList1.SelectedValue;
-            Product_Name = DropDownList2.SelectedValue;
-            Product_Rate = AddRate.Text;
-            Product_Quantity = quantity.Text;
-            decimal total = Convert.ToDecimal(Product_Rate) * Convert.ToInt32(Product_Quantity);
+            try
+            {
+                Party_Name = DropDownList1.SelectedValue;
+                Product_Name = DropDownList2.SelectedValue;
+                Product_Rate = AddRate.Text;
+                Product_Quantity = quantity.Text;
+                decimal total = Convert.ToDecimal(Product_Rate) * Convert.ToInt32(Product_Quantity);
+                SqlDataSource4.InsertParameters["Party_Name"].DefaultValue = Party_Name;
+                SqlDataSource4.InsertParameters["Product_Name"].DefaultValue = Product_Name;
+                SqlDataSource4.InsertParameters["Rate"].DefaultValue = Product_Rate;
+                SqlDataSource4.InsertParameters["Quantity"].DefaultValue = Product_Quantity;
+                SqlDataSource4.Insert();
 
-            SqlDataSource4.InsertParameters["Party_Name"].DefaultValue = Party_Name;
-            SqlDataSource4.InsertParameters["Product_Name"].DefaultValue = Product_Name;
-            SqlDataSource4.InsertParameters["Rate"].DefaultValue = Product_Rate;
-            SqlDataSource4.InsertParameters["Quantity"].DefaultValue = Product_Quantity;
-            SqlDataSource4.Insert();
+                TempInvoice.InsertParameters["Party_Name"].DefaultValue = Party_Name;
+                TempInvoice.InsertParameters["Product_Name"].DefaultValue = Product_Name;
+                TempInvoice.InsertParameters["Rate"].DefaultValue = Product_Rate;
+                TempInvoice.InsertParameters["Quantity"].DefaultValue = Product_Quantity;
+                TempInvoice.Insert();
 
-            TempInvoice.InsertParameters["Party_Name"].DefaultValue = Party_Name;
-            TempInvoice.InsertParameters["Product_Name"].DefaultValue = Product_Name;
-            TempInvoice.InsertParameters["Rate"].DefaultValue = Product_Rate;
-            TempInvoice.InsertParameters["Quantity"].DefaultValue = Product_Quantity;
-            TempInvoice.Insert();
+                DropDownList1.Enabled = false;
+                GridView1.DataBind();
+            }
+            catch (Exception ex)
+            {
+                lblMessage.Text = ex.Message;
+            }
 
-            DropDownList1.Enabled = false;
-            GridView1.DataBind();
-
-            // Calculate and set the grand total
             Total.Text = CalculateGrandTotal().ToString();
         }
 
@@ -72,10 +77,10 @@ namespace Party_Product
         {
             decimal grandTotal = 0;
 
-            // Iterate through the rows in TempInvoice and calculate the total
+
             foreach (GridViewRow row in GridView1.Rows)
             {
-                decimal rate = Convert.ToDecimal(row.Cells[3].Text); // Assuming rate is in the 4th column
+                decimal rate = Convert.ToDecimal(row.Cells[3].Text);
                 int quantity = Convert.ToInt32(row.Cells[4].Text); // Assuming quantity is in the 5th column
 
                 grandTotal += rate * quantity;
@@ -99,8 +104,17 @@ namespace Party_Product
             }
         }
 
-
-
+        protected void SqlAddParty_Inserted(object sender, SqlDataSourceStatusEventArgs e)
+        {
+            if (e.AffectedRows > 0)
+            {
+                lblMessage.Text = "Data inserted successfully!";
+            }
+            else
+            {
+                lblMessage.Text = "already exists";
+            }
+        }
     }
 }
 

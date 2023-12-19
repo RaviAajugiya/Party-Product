@@ -16,19 +16,35 @@ namespace Party_Product
 
         protected void Button1_Click(object sender, EventArgs e)
         {
+            if (string.IsNullOrWhiteSpace(TextBox1.Text))
+            {
+                lblMessage.Text = "Please enter a party name.";
+                return;
+            }
             try
             {
-                Status.Visible = true;
+                lblMessage.Visible = true;
 
                 String ProductName = TextBox1.Text;
                 SqlAddProduct.InsertParameters["ProductName"].DefaultValue = ProductName;
                 SqlAddProduct.Insert();
-                Status.Text = "Data Inserted Succesfully";
 
             }
             catch (Exception ex)
             {
-                Status.Text = ex.Message;
+                //lblMessage.Text = ex.Message;
+            }
+        }
+
+        protected void SqlAddParty_Inserted(object sender, SqlDataSourceStatusEventArgs e)
+        {
+            if (e.AffectedRows > 0)
+            {
+                lblMessage.Text = "Data inserted successfully!";
+            }
+            else
+            {
+                lblMessage.Text = "Party alreadt exists";
             }
         }
     }

@@ -2,7 +2,10 @@
 
 <asp:Content ID="Content1" runat="server" ContentPlaceHolderID="ContentPlaceHolder1">
     <h3 class="text-center mb-3 mt-2">Invoice Add</h3>
+    <div class="container text-center">
 
+        <asp:Label ID="lblMessage" runat="server" Text="" ForeColor="Green"></asp:Label>
+    </div>
     <table align="center" cellpadding="3" class="auto-style1">
         <tr>
             <td class="auto-style2">Party Name :</td>
@@ -70,7 +73,7 @@
     <div style="text-align: center">
         <hr style="width: 80%; margin: auto" />
 
-        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="TempInvoice" CssClass="table table-striped table-bordered" Width="80%" HorizontalAlign="Center" AllowPaging="True">
+        <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" DataSourceID="TempInvoice" CssClass="table table-striped table-bordered" Width="80%" HorizontalAlign="Center" AllowPaging="True" AllowSorting="True">
             <Columns>
                 <asp:BoundField DataField="Invoice_id" HeaderText="Invoice_id" InsertVisible="False" ReadOnly="True" SortExpression="Invoice_id" />
                 <asp:BoundField DataField="Party_Name" HeaderText="Party_Name" SortExpression="Party_Name" />
@@ -82,7 +85,7 @@
         </asp:GridView>
 
         <asp:SqlDataSource ID="TempInvoice" runat="server" ConnectionString="<%$ ConnectionStrings:PartyProductConnectionString %>" SelectCommand="SELECT * FROM [TempInvoice]"
-            InsertCommand="INSERT INTO TempInvoice(Party_Name, Product_Name, Rate, Quantity) VALUES (@Party_Name, @Product_Name, @Rate, @Quantity)">
+            InsertCommand="INSERT INTO TempInvoice(Party_Name, Product_Name, Rate, Quantity) VALUES (@Party_Name, @Product_Name, @Rate, @Quantity)" OnInserted="SqlAddParty_Inserted">
             <InsertParameters>
                 <asp:Parameter Name="Party_Name" />
                 <asp:Parameter Name="Product_Name" />
@@ -93,6 +96,7 @@
 
         <br />
         Grand Total :
+       
         <asp:Label ID="Total" runat="server" Text="0" CssClass="mt-3"></asp:Label>
         <br />
 

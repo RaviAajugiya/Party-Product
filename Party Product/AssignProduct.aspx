@@ -6,7 +6,7 @@
 
         <p style="text-align: center">
 
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowUpdating="GridView1_RowUpdating" DataKeyNames="Product_id,Party_id" DataSourceID="SqlAssignParty" CssClass="table table-striped table-bordered" Width="80%" HorizontalAlign="Center">
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" OnRowUpdating="GridView1_RowUpdating" DataKeyNames="Product_id,Party_id" DataSourceID="SqlAssignParty" CssClass="table table-striped table-bordered" Width="80%" HorizontalAlign="Center" AllowSorting="True">
                 <Columns>
                     <asp:TemplateField HeaderText="Party_Name" SortExpression="Party_Name">
                         <ItemStyle Width="33.33%" />
@@ -31,7 +31,16 @@
                             <asp:Label ID="Label2" runat="server" Text='<%# Bind("Product_Name") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:CommandField ShowDeleteButton="True" ShowEditButton="True" ButtonType="Button" />
+                    <asp:TemplateField HeaderText="Action">
+                        <EditItemTemplate>
+                            <asp:LinkButton runat="server" CausesValidation="True" CommandName="Update" Text="Update" CssClass="btn btn-info"></asp:LinkButton>
+                            &nbsp;<asp:LinkButton runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" CssClass="w-auto btn btn-danger"></asp:LinkButton>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:LinkButton runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="btn btn-success"></asp:LinkButton>
+                            <asp:LinkButton runat="server" Text="Delete" CommandName="Delete" CausesValidation="False" OnClientClick="return confirm('Are you sure you want to delete?');" CssClass="btn btn-danger"></asp:LinkButton>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:BoundField DataField="Party_id" ReadOnly="True" SortExpression="Party_id" Visible="False" />
                     <asp:BoundField DataField="Product_id" ReadOnly="True" SortExpression="Product_id" Visible="False" />
                 </Columns>
